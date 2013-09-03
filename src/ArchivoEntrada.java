@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.*;
 
-
-
 public class ArchivoEntrada {
 	
     public Vector<String> obtener_instrucciones_de_programa( String ruta_archivo ) {
@@ -87,9 +85,36 @@ public class ArchivoEntrada {
 }
 
 
+/*
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 
+/*
+ * 
+ * 
+ * 
+ * 
+ *
+ * 
+ System.out.println( "Torre1".matches("[a-zA-Z]+\\w+") );
+		String pattern = "([a-z|A-Z]+\\w+){1,100}";
+		
+		
+		System.out.println( "Torre1".matches("[a-z|A-Z]+\\w+") );
+		
+		System.out.println( "Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1".matches(pattern) );
 
-
+ 
+ 
+ * 
+ * 
+ */
 
 /*
 public class ArchivoEntrada {
