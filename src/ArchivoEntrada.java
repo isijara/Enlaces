@@ -8,12 +8,22 @@ import java.util.regex.*;
 
 public class ArchivoEntrada {
 	
-    public Vector<String> obtener_instrucciones_de_programa( String ruta_archivo ) {
+	private Vector<String> instrucciones = new Vector<String>();
+	private String ruta_archivo; 
+	private String pattern_enlace = "[[a-z|A-Z]+\\w]{1,100}\\s+(->|<-)\\s+[[a-z|A-Z]+\\w]{1,100}\\s*\\.";
+	private String pattern_remover_enlace = "[[a-z|A-Z]+\\w]{1,100}\\s+-\\s+[[a-z|A-Z]+\\w]{1,100}\\s";
+	private String pattern_pregunta = "[[a-z|A-Z]+\\w]{1,100}\\s+(=>|<=)\\s+[[a-z|A-Z]+\\w]{1,100}\\s*\\?";
+
+	
+	public ArchivoEntrada(String ruta_archivo) {
+		this.ruta_archivo = ruta_archivo;
+		this.obtener_instrucciones_de_programa();
+	}
+    public Vector<String> obtener_instrucciones_de_programa( ) {
     	
-    	Vector <String> instrucciones = new Vector<String> ();
     	String line;
     	
-    	File file = new File( ruta_archivo );
+    	File file = new File( this.ruta_archivo );
         BufferedReader in = null;
     	try {
     		in = new BufferedReader(new FileReader(file));
@@ -29,10 +39,8 @@ public class ArchivoEntrada {
     		    	
     		    	line = this.eliminar_contenido_innecesario(line);
     		    	if( this.es_una_instruccion_valida(line) ) {
-    		    		instrucciones.add(line);
+    		    		this.instrucciones.add(line);
     		    	}
-    		    	
-    		    	System.out.println(line);
     		    }
     		}
     	} catch (IOException e) {
@@ -47,12 +55,13 @@ public class ArchivoEntrada {
 			e.printStackTrace();
 		}
     	
-    	return instrucciones;
+    	return this.instrucciones;
     }
     
     private String eliminar_contenido_innecesario(String line) {
     	/*
-    	 * Este mŽtodo deber‡ encargarse de eliminar el contenido que existe despuŽs de un . o ?
+    	 * Este mŽtodo se encarga de eliminar el contenido que existe despuŽs de un . o ?
+    	 * Busca el ’ndice de la primer existencia de ? o . y borra el contenido despuŽs de ese caracter. 
     	 * */
     	int index_question = line.indexOf('?');
 		int index_point = line.indexOf('.');
@@ -63,72 +72,70 @@ public class ArchivoEntrada {
     	return line;
     }
     
+    
+    /* es_una_instruccion_valida (String line) {}
+	 * Este mŽtodo se encarga de revisar que el enunciado sea v‡lido, es decir, que se respeten las 
+	 * reglas de nombramiento de las torres, que el tipo de instrucci—n sea v‡lido: una pregunta, creaci—n 
+	 * o destrucci—n de enlaces.
+	 */
+    
     private boolean es_una_instruccion_valida(String line) {
-    	boolean es_valido = false;
-    	/* 
-    	 *Este mŽtodo se encargar‡ de validar que tengamos una instrucci—n v‡lida
-    	 **/
-    	
-    	return es_valido;
+ 
+    	if( line.matches(this.pattern_enlace) ) {
+    		return true;
+    	} else if( line.matches(this.pattern_remover_enlace) ){
+    		return true;
+    	} else if( line.matches(this.pattern_pregunta) ) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
-    private boolean es_nombre_valido( String nombre) {
-    	boolean es_valido = true;
+    /*
+     * obtener_nombres_de_torres(String str) {}
+     * Este mŽtodo se encarga de extraer los nombres de las torres que se encuentran involucradas en una
+     * instrucci—n del archivo de entrada. Sustituye los caracteres ? o . de la instrucci—n y extrae los nombres
+     * haciendo un split en base al tipo de instrucci—n que se encuentre en proceso.
+     */
+    public String[] obtener_nombres_de_torres(String line) {
+		String tipo_enunciado = this.obtener_tipo_instruccion(line);
+		String nombres[];
+		line = line.replaceAll("\\.|\\?|\\s", "");
+		
+    	if( tipo_enunciado.equals("EnunciadoCrearEnlace")){
+    		int index_creacion= line.indexOf('>');
+    		if(index_creacion > 0 ){
+    			nombres = line.split("->");
+    		} else{
+    			nombres = line.split("<-");
+    		}
+    	} else if( tipo_enunciado.equals("EnunciadoRemoverEnlace") ){
+    			nombres = line.split("-");
+    	} else {
+    		int index_question = line.indexOf("=>");
+    		if( index_question > 0 ) {
+    			nombres = line.split("=>");
+    		} else {
+    			nombres = line.split("<=");
+    		}
+    	}
     	
-    	Pattern p =Pattern.compile( "\\p{Alnum}" );
-    	
-		//   Esta es la expresi—n regular que necesito [a-zA-Z]++\w
-
-    	
-    	return es_valido;
+    	return nombres;
+    }
+    
+    public String obtener_tipo_instruccion(String line) {
+    	if( line.matches(this.pattern_enlace) ) {
+    		return "EnunciadoCrearEnlace";
+    	} else if( line.matches(this.pattern_remover_enlace) ){
+    		return "EnunciadoRemoverEnlace";
+    	} else {
+    		return "EnunciadoPregunta";
+    	}
+    }
+    
+    public Vector<String> get_instrucciones () {
+    	return this.instrucciones;
     }
 }
 
-
-/*
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */
-
-/*
- * 
- * 
- * 
- * 
- *
- * 
- System.out.println( "Torre1".matches("[a-zA-Z]+\\w+") );
-		String pattern = "([a-z|A-Z]+\\w+){1,100}";
-		
-		
-		System.out.println( "Torre1".matches("[a-z|A-Z]+\\w+") );
-		
-		System.out.println( "Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1Torraaaaaaaaaaaaaaaaaaaaaae1".matches(pattern) );
-
- 
- 
- * 
- * 
- */
-
-/*
-public class ArchivoEntrada {
-
-	
-	BufferedReader in = new BufferedReader(new FileReader(file));
-    String line;
-    while ((line = in.readLine()) != null) {
-        String[] lineArray = line.split("\s");
-        if (lineArray.length > 0) {
-            //Process line of input Here
-        }
-    }
-}
-
-*/
-//Sample code to read in test cases:
