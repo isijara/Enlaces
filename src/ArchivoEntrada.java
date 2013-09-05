@@ -10,9 +10,9 @@ public class ArchivoEntrada {
 	
 	private Vector<String> instrucciones = new Vector<String>();
 	private String ruta_archivo; 
-	private String pattern_enlace = "[[a-z|A-Z]+\\w]{1,100}\\s+(->|<-)\\s+[[a-z|A-Z]+\\w]{1,100}\\s*\\.";
-	private String pattern_remover_enlace = "[[a-z|A-Z]+\\w]{1,100}\\s+-\\s+[[a-z|A-Z]+\\w]{1,100}\\s";
-	private String pattern_pregunta = "[[a-z|A-Z]+\\w]{1,100}\\s+(=>|<=)\\s+[[a-z|A-Z]+\\w]{1,100}\\s*\\?";
+	private String pattern_enlace = "[[a-z|A-Z]+\\w]{1,100}\\s+(->|<-)\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\.";
+	private String pattern_remover_enlace = "[[a-z|A-Z]+\\w]{1,100}\\s*-\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\.";
+	private String pattern_pregunta = "[[a-z|A-Z]+\\w]{1,100}\\s+(=>|<=)\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\?";
 
 	
 	public ArchivoEntrada(String ruta_archivo) {
@@ -58,11 +58,12 @@ public class ArchivoEntrada {
     	return this.instrucciones;
     }
     
+    /*
+	 * Este mŽtodo se encarga de eliminar el contenido que existe despuŽs de un . o ?
+	 * Busca el ’ndice de la primer existencia de ? o . y borra el contenido despuŽs de ese caracter. 
+	 * */
     private String eliminar_contenido_innecesario(String line) {
-    	/*
-    	 * Este mŽtodo se encarga de eliminar el contenido que existe despuŽs de un . o ?
-    	 * Busca el ’ndice de la primer existencia de ? o . y borra el contenido despuŽs de ese caracter. 
-    	 * */
+   
     	int index_question = line.indexOf('?');
 		int index_point = line.indexOf('.');
 		
@@ -120,7 +121,6 @@ public class ArchivoEntrada {
     			nombres = line.split("<=");
     		}
     	}
-    	
     	return nombres;
     }
     
