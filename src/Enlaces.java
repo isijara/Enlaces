@@ -103,13 +103,21 @@ public class Enlaces {
 	
 	private void buscar_torre( String instruccion ) {
 		String torres [] = this.ArchivoEntrada.obtener_nombres_de_torres(instruccion);
-		String torre_origen = torres[0], torre_destino = torres[1];
+		
 		int busqueda_de_izquierda_a_derecha= instruccion.indexOf("=>");
-		Torre Origen = ( busqueda_de_izquierda_a_derecha > 0 ) ? this.contenedor_torres.get(torre_origen) : this.contenedor_torres.get(torre_destino);
-		Torre Destino= ( busqueda_de_izquierda_a_derecha > 0 ) ? this.contenedor_torres.get(torre_destino) : this.contenedor_torres.get(torre_origen);  
+		
+		String torre_origen = ( busqueda_de_izquierda_a_derecha > 0 ) ? torres[0] : torres[1];
+		String torre_destino= ( busqueda_de_izquierda_a_derecha > 0 ) ? torres[1] : torres[0];
+		
+		Torre Origen = this.contenedor_torres.get(torre_origen);
+		Torre Destino= this.contenedor_torres.get(torre_destino);  
 		
 		Vector <Torre> ruta_prueba = new Vector<Torre>(); 
 		ruta_prueba.add(Origen);
+		if(Destino == null || Origen == null  ) {
+			System.out.println("-"+torre_origen + " => " + torre_destino);
+			return;
+		}
 		Origen.set_vector_ruta(Origen.buscar_torre(Destino, ruta_prueba) );
 		
 		String ruta = (Origen.get_estatus_busqueda() == true) ? "+" : "-";
