@@ -159,7 +159,7 @@ public class ArchivoEntrada {
     
     /**
      * M&eacutetodo que se encarga de detectar el tipo de enunciado que se est&eacute
-     * @param line
+   	 * @param line Variable de tipo String que contiene una instrucci&oacuten del archivo de entrada.
      * @return String Es el tipo de instrucci&oacuten al que pertenece el enunciado. Creaci&oacuten/destrucci&oacuten de enlace o b&uacutesqueda de torre.
      */
     public String obtener_tipo_instruccion(String line) {

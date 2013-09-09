@@ -103,8 +103,8 @@ public class Enlaces {
 	
 	/**
 	 * Este m&eacutetodo se encarga de identificar si existen las torres enviadas como par&aacutemetros en nuestro contenedor de torres.
-	 * @param torre_a
-	 * @param torre_b
+	 * @param torre_a Variable tipo Torre
+	 * @param torre_b Variable tipo Torre
 	 * @return boolean
 	 */
 	private boolean existen_ambas_torres(String torre_a, String torre_b) {
