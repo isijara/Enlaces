@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="ArchivoEntrada" project="Enlaces" file="/Enlaces/src/ArchivoEntrada.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="701" y="534"/>    
+    <position height="-1" width="-1" x="700" y="483"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -72,10 +72,10 @@
   <association id="13">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="14" name="ArchivoEntrada">        
-        <position height="18" width="92" x="603" y="356"/>      
+        <position height="18" width="92" x="602" y="305"/>      
       </attribute>      
       <multiplicity id="15" minimum="0" maximum="1">        
-        <position height="16" width="25" x="705" y="370"/>      
+        <position height="16" width="25" x="704" y="319"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
