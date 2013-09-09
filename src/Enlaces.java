@@ -1,50 +1,44 @@
 import java.util.*;
+
+/**
+ * @author Ram&oacuten Isijara / Margarita Aranda
+ *
+ */
 public class Enlaces {
 	
-	private Vector<Torre> vector_torres;
+	/**
+	 * Variable que contiene las torres que se van registrando mediante las instrucciones del archivo de entrada.
+	 */
 	private Hashtable< String, Torre > contenedor_torres;
+	
+	/**
+	 * Variable de instancia de tipo ArchivoEntrada
+	 */
 	private ArchivoEntrada ArchivoEntrada;
 
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Enlaces Enlaces = new Enlaces();
-		
 		for ( String instruccion : Enlaces.ArchivoEntrada.get_instrucciones()) {
 			Enlaces.realizar_accion(Enlaces.ArchivoEntrada.obtener_tipo_instruccion(instruccion), instruccion);
-			
-			//System.out.println(instruccion);
 		}
-		
-		/*
-			System.out.println(Enlaces.contenedor_torres.containsKey("Hermosillo2"));
-			System.out.println("Tama–o del hashmap torre " + Enlaces.contenedor_torres.size());
-			Enumeration <String> claves = Enlaces.contenedor_torres.keys();
-			while(claves.hasMoreElements()) {
-				String claveActual = claves.nextElement();
-				System.out.println(claveActual);
-			}
-		*/
-		/*
-			System.out.println();
-
-			System.out.println("Estos son mis enlaces de mi torre Culiac‡n ");
-			for( Torre element : Enlaces.contenedor_torres.get("Culiacan1").get_vector_enlaces()){
-				
-				System.out.println(element.get_nombre());
-				
-			}
-		*/
 	}
 	
+	
+	
+	/**
+	 * Constructor Enlaces
+	 */
 	public Enlaces() {
-		this.vector_torres     = new Vector<Torre>();
-		this.contenedor_torres = new Hashtable<String,Torre>(); //tal vez tenga que cambiarlo por el mismo objeto
+		this.contenedor_torres = new Hashtable<String,Torre>();
 		this.ArchivoEntrada    = new ArchivoEntrada("Enlaces.txt");
 	}
 	
-	/*
-	 * MŽtodo que se encarga de ejecutar un tipo de acci—n en base a la instrucci—n y su tipo.
+	/**
+	 * M&eacutetodo que se encarga de ejecutar un tipo de acci&oacuten en base a la instrucci&oacuten y su tipo.
+	 * @param tipo_instruccion Es el tipo de instrucci&oacuten, crear de enlace, remover enlace o realizar b&uacutesqueda.
+	 * @param instruccion Es la isntrucci&oacuten del archivo de entrada que se encuentra en proceso.
 	 */
 	private void realizar_accion(String tipo_instruccion, String instruccion) {
 		if( tipo_instruccion.equals("EnunciadoCrearEnlace") ) {
@@ -56,8 +50,9 @@ public class Enlaces {
 		}
 	}
 	
-	/*
-	 * MŽtodo destinado a la creaci—n de torres y de su agregaci—n al contenedor. 
+	/**
+	 * M&eacutetodo destinado a la creaci&oacuten de torres y de su agregaci&oacuten al contenedor. 
+	 * @param nombre Es el nombre con el que se crear&aacute la torre
 	 */
 	private void crear_torre(String nombre) {
 		Torre torre = new Torre(nombre);
@@ -65,15 +60,18 @@ public class Enlaces {
 	}
 	
 	
-	/*
-	 * crear_enlace(String instruccion) {}
-	 * Recibe como par‡metro una instrucci—n y se encarga de detectar la direci—n de creaci—n del enlace de comunicaci—n y lo crea.
-	 * Si no existen las torres de comunicaci—n las almacena en el contenedor de torres
+	/**
+	 * Recibe como par&aacutemetro una instrucci&oacuten y se encarga de detectar la direci&oacuten de creaci&oacuten del enlace de comunicaci&oacuten y lo crea.
+	 * Si no existen las torres de comunicaci&oacuten las almacena en el contenedor de torres
+	 * @param instruccion Es la isntrucci&oacuten del archivo de entrada que se encuentra en proceso.
 	 */
 	private void crear_enlace( String instruccion ) {
 		
+		int tipo_creacion = instruccion.indexOf("->");
+		
 		String torres [] = this.ArchivoEntrada.obtener_nombres_de_torres(instruccion);
-		String torre_origen = torres[0], torre_destino = torres[1];
+		String torre_origen = ( tipo_creacion > 0 ) ? torres[0] : torres[1];
+		String torre_destino= ( tipo_creacion > 0 ) ? torres[1] : torres[0];
 
 		for(String torre: torres) {
 			if( !this.contenedor_torres.containsKey(torre)) {
@@ -81,30 +79,49 @@ public class Enlaces {
 			}
 		}
 		
-		int tipo_creacion = instruccion.indexOf("->");
-		Torre TorreOrigen = ( tipo_creacion > 0) ? this.contenedor_torres.get(torre_origen) : this.contenedor_torres.get(torre_destino);
-		Torre TorreDestino= ( tipo_creacion > 0) ? this.contenedor_torres.get(torre_destino) : this.contenedor_torres.get(torre_origen);
+		Torre TorreOrigen = this.contenedor_torres.get(torre_origen);
+		Torre TorreDestino= this.contenedor_torres.get(torre_destino);
 		
-		TorreOrigen.get_vector_enlaces().add( TorreDestino );
+		TorreOrigen.agregar_enlace(TorreDestino);//.add( TorreDestino );
 	
 	}
 	
+
+	/**
+	 * M&eacutetodo utiliz&eacutedo para delegar a un objeto Torre la responsabilidad de eliminar un enlace a otra torre.
+	 * @param instruccion Es la isntrucci&oacuten del archivo de entrada que se encuentra en proceso.
+	 */
 	private void remover_enlace( String instruccion ) {
 		String torres [] = this.ArchivoEntrada.obtener_nombres_de_torres(instruccion);
 		String torre_origen = torres[0], torre_destino = torres[1];
+		
 		if( this.existen_ambas_torres(torre_origen, torre_destino) ) {
-			this.contenedor_torres.get(torre_origen).remover_enlace(this.contenedor_torres.get(torre_destino));			
+			Torre Destino = this.contenedor_torres.get(torre_destino);
+			this.contenedor_torres.get(torre_origen).remover_enlace(Destino);			
 		}
 	}
 	
+	/**
+	 * Este m&eacutetodo se encarga de identificar si existen las torres enviadas como par&aacutemetros en nuestro contenedor de torres.
+	 * @param torre_a
+	 * @param torre_b
+	 * @return boolean
+	 */
 	private boolean existen_ambas_torres(String torre_a, String torre_b) {
 		return (this.contenedor_torres.containsKey(torre_a) && this.contenedor_torres.containsKey(torre_b));
 	}
 	
+	
+	/**
+	 * M&eacutetodo que se encarga de en base a una isntancia de Torre determinar si esta tiene comunicaci&oacuten 
+	 * con otra Torre. Recibe como par&aacutemetro una instrucci&oacuten de b&uacutesqueda.
+	 * Imprime en consola el resultado.
+	 * @param instruccion Es la isntrucci&oacuten del archivo de entrada que se encuentra en proceso.
+	 */
 	private void buscar_torre( String instruccion ) {
 		String torres [] = this.ArchivoEntrada.obtener_nombres_de_torres(instruccion);
 		
-		int busqueda_de_izquierda_a_derecha= instruccion.indexOf("=>");
+		int busqueda_de_izquierda_a_derecha = instruccion.indexOf("=>");
 		
 		String torre_origen = ( busqueda_de_izquierda_a_derecha > 0 ) ? torres[0] : torres[1];
 		String torre_destino= ( busqueda_de_izquierda_a_derecha > 0 ) ? torres[1] : torres[0];
@@ -114,10 +131,17 @@ public class Enlaces {
 		
 		Vector <Torre> ruta_prueba = new Vector<Torre>(); 
 		ruta_prueba.add(Origen);
+		
 		if(Destino == null || Origen == null  ) {
 			System.out.println("-"+torre_origen + " => " + torre_destino);
 			return;
 		}
+		/* En caso de no querer hacer toda la b&uacutesqueda
+			if( Origen == Destino ) {
+				//System.out.println("+" + torre_origen);
+				//return;
+			}
+		*/
 		Origen.set_vector_ruta(Origen.buscar_torre(Destino, ruta_prueba) );
 		
 		String ruta = (Origen.get_estatus_busqueda() == true) ? "+" : "-";
@@ -130,9 +154,6 @@ public class Enlaces {
 			ruta+= torre_origen+ " => "+torre_destino;
 		}
 
-		
-		
-		
 		System.out.println(ruta);
 	
 	}
