@@ -1,8 +1,8 @@
 import java.util.*;
 
 /**
+ * Encargada de operaciones b&aacutesicas de las torres como agregar o quitar enlaces, realizar la b&uacutesqueda de una torre.
  * @author Ram&oacuten Isijara / Margarita Aranda
- *
  */
 public class Torre {
 	/**
@@ -46,28 +46,61 @@ public class Torre {
 	 * @param ruta_principal Par&aacutemetro auxiliar para almacenar la ruta de comunicaci&oacuten de una torre a otra.
 	 * @return ruta_principal
 	 */
-	public Vector<Torre> buscar_torre(Torre objetivo, Vector<Torre> ruta_principal){
-		
+	
+
+	
+	public Vector<Torre> buscar_torre(Torre objetivo, Vector<Torre> ruta_principal) { // este es el conejillo de indias			
 		Torre torre_origen = ruta_principal.get(0);
-		torre_origen.estatus_busqueda = false;
+		boolean enlace_repetido = false;
+		int ultimo_indice;
+		Torre ultima_torre;
+		
 		for( Torre T : this.vector_enlaces ) {
-			if( this.vector_enlaces.contains(T) && T == torre_origen && T != objetivo ) {
+			ultimo_indice = ruta_principal.size()-1;
+			ultima_torre = ruta_principal.get(ultimo_indice);
+			
+			if(ultima_torre == objetivo) {
+				return ruta_principal;
+			}
+			
+			if(  T == torre_origen && T != objetivo || ruta_principal.contains(T)) { 
+				enlace_repetido = true;
 				continue;
 			}
-			if( T == objetivo) {
+			
+			if(objetivo == T) {
 				ruta_principal.add(T);
 				torre_origen.estatus_busqueda = true;
-			} else{
+				return ruta_principal;
+			} else {
 				ruta_principal.add(T);
-				T.buscar_torre(objetivo, ruta_principal);				
+				T.buscar_torre(objetivo, ruta_principal);
 			}
 		}
-		if(this.vector_enlaces.size() == 0 ){
-			ruta_principal.remove(this);
+		
+		ultimo_indice = ruta_principal.size()-1;
+		ultima_torre= ruta_principal.get(ultimo_indice);
+		
+		if(ultima_torre == objetivo) {
+			return ruta_principal;
 		}
+		
+		if(this.vector_enlaces.size() == 0 ){
+			ruta_principal.remove(ruta_principal.size()-1);
+		} else{
+			if(enlace_repetido) {
+				ruta_principal.remove(ruta_principal.size()-1);
+			}else
+				if(!torre_origen.estatus_busqueda && ruta_principal.get(ruta_principal.size()-1) != objetivo ) { //agregué el negado de estatus busqueda
+					ruta_principal.remove(ruta_principal.size()-1);
+				}
+		}
+		
 		return ruta_principal;
 	}
 	
+	
+		
 	/**
 	 * M&eacutetodo encargado de agregar una torre al vector de enlaces de un objeto torre.
 	 * @param TorreParaEnlazar Es la torre que en caso de no existir en vector_enlaces se agrega a este.
@@ -135,5 +168,5 @@ public class Torre {
 	public boolean get_estatus_busqueda() {
 		return this.estatus_busqueda;
 	}
-	
+		
 }

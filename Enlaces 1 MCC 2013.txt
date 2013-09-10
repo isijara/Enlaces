@@ -1,0 +1,26 @@
+A1 -> C3.
+C3 <- B2.
+B2 -> A1.
+C3 -> D4.
+C3 <- C6.
+B2 -> E5.
+E5 -> D4.
+B1 <- D4.
+E1 <- E5.
+B1 -> E1.
+A2 <- B1.
+A2 -> C6.
+A2 -> E6.
+B1 <- E6.
+E1 -> D4.
+A1 => C3?     // + camino directo
+A1 => D4?    // + A1-C3-D4
+A1 => E6?     && A1-C3-D4-B1-A2-E6
+E6 => D4?      RUTA 1 + E6-B1-A2-C6-C3-D4                RUTA2  + E6-B1-E1-D4
+A2 <= A1?     + A1-C3-D4-B1-A2
+A2 => A1?   - NO HAY RUTA
+D4 -> B2.
+A2 => A1?    $ + A2-C6-C3-D4-B2-A1  //  +A2- E6-B1-E1-D4-B2-A1
+C3 => E1?   // + C3-D4-B1-E1
+C6 <=E6?    & + E6-B1-A2-C6
+E6 => E5?   2 RUTAS  +E6-B1-D4-B2-E5   //  + E6-B1-A2-C6-C3-D4-B2-E5

@@ -1,11 +1,11 @@
 import java.util.*;
 
 /**
+ * Clase que contiene el main del programa. Esta clase tiene el contenedor de torres.
  * @author Ram&oacuten Isijara / Margarita Aranda
- *
  */
 public class Enlaces {
-	
+	//pops
 	/**
 	 * Variable que contiene las torres que se van registrando mediante las instrucciones del archivo de entrada.
 	 */
@@ -16,7 +16,11 @@ public class Enlaces {
 	 */
 	private ArchivoEntrada ArchivoEntrada;
 
-	
+	/**
+	 * Recorre todas las instrucciones de un archivo de entrada en caso de existir y realiza las acciones que indican
+	 * las instrucciones.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		Enlaces Enlaces = new Enlaces();
@@ -25,14 +29,12 @@ public class Enlaces {
 		}
 	}
 	
-	
-	
 	/**
 	 * Constructor Enlaces
 	 */
 	public Enlaces() {
 		this.contenedor_torres = new Hashtable<String,Torre>();
-		this.ArchivoEntrada    = new ArchivoEntrada("Enlaces.txt");
+		this.ArchivoEntrada    = new ArchivoEntrada("Enlaces 1 MCC 2013.txt");
 	}
 	
 	/**
@@ -136,19 +138,22 @@ public class Enlaces {
 			System.out.println("-"+torre_origen + " => " + torre_destino);
 			return;
 		}
+		
 		/* En caso de no querer hacer toda la b&uacutesqueda
 			if( Origen == Destino ) {
 				//System.out.println("+" + torre_origen);
 				//return;
 			}
 		*/
+		
+		Origen.set_estatus_busqueda(false);
 		Origen.set_vector_ruta(Origen.buscar_torre(Destino, ruta_prueba) );
 		
 		String ruta = (Origen.get_estatus_busqueda() == true) ? "+" : "-";
 		
 		if( Origen.get_estatus_busqueda()) {
 			for(int i = 0; i<Origen.get_vector_ruta().size(); i++) {
-				ruta += ( (i+1) != Origen.get_vector_ruta().size()) ? Origen.get_vector_ruta().get(i).get_nombre() + "=>" :Origen.get_vector_ruta().get(i).get_nombre();
+				ruta += ( (i+1) != Origen.get_vector_ruta().size()) ? Origen.get_vector_ruta().get(i).get_nombre() + " => " :Origen.get_vector_ruta().get(i).get_nombre();
 			}
 		} else {
 			ruta+= torre_origen+ " => "+torre_destino;

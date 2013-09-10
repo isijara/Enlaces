@@ -1,8 +1,23 @@
+.culiacan1 <- culiacan5.
+.culiacan2 <- culiacan1.
+.culiacan3 <- culiacan2.
+.culiacan3 <= culiacan5?
+.culiacan1 - culiacan2.
+.culiacan2 <= culiacan5?
+.culiacan1 <= culiacan5?
+
+
 Culiacan1 -> Hermosillo2.
 Hermosillo2 -> Monterrey5.
+Hermosillo5 -> Monterrey2. este este
+Hermosillo2 ->Culiacan1.
+Monterrey5 ->Culiacan1.
+Guadalajara34->OtraTorre.
 Culiacan1 => Monterrey5?   //esta es una pregunta
 Guadalajara3 <- Hermosillo2.
 Guadalajara3 -> Guadalajara34. // enlace
+Guadalajara34->Guadalajara3. este otro
+culiacan1->Mexico5.
 Guadalajara34 <= Culiacan1 ? #otra pregunta
 Mexico5 <- culiacan1.	//este es un enlace
 Guadalajara34 => Hermosillo2? % tercera pregunta

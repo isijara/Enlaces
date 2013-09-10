@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ * Clase encargada de la detecci&oacuten y extracci&oacuten de las instrucciones del archivo de entrada. 
  * @author Ram&oacute;n Isijara / Margarita Aranda
- *
  */
+
 public class ArchivoEntrada {
 	/**
 	 * Variable de instancia que se encarga de almacenar las instrucciones recibidas de un archivo de entrada.
@@ -22,7 +23,7 @@ public class ArchivoEntrada {
 	/**
 	 * Variable que almacena la expresi&oacuten regular para la validaci&oacuten de instrucciones de creaci&oacuten de enlaces.
 	 */
-	private String pattern_enlace = "\\s*[[a-z|A-Z]+\\w]{1,100}\\s+(->|<-)\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\.";
+	private String pattern_enlace = "\\s*[[a-z|A-Z]+\\w]{1,100}\\s*(->|<-)\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\.";
 	/**
 	 * Variable que almacena la expresi&oacuten regular para la validaci&oacuten de instrucciones de eliminaci&oacuten de enlaces.
 	 */
@@ -30,7 +31,7 @@ public class ArchivoEntrada {
 	/**
 	 * Variable que almacena la expresi&oacuten regular para la validaci&oacuten de instrucciones de b&uacutesqueda de torres de comunicaci&oacuten.
 	 */
-	private String pattern_pregunta = "\\s*[[a-z|A-Z]+\\w]{1,100}\\s+(=>|<=)\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\?";
+	private String pattern_pregunta = "\\s*[[a-z|A-Z]+\\w]{1,100}\\s*(=>|<=)\\s*[[a-z|A-Z]+\\w]{1,100}\\s*\\?";
 
 	/**
 	 * Constructor
@@ -71,6 +72,7 @@ public class ArchivoEntrada {
     		    	}
     		    }
     		}
+    		
     	} catch (IOException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
@@ -141,7 +143,7 @@ public class ArchivoEntrada {
     		int index_creacion= line.indexOf('>');
     		if(index_creacion > 0 ){
     			nombres = line.split("->");
-    		} else{
+    		} else {
     			nombres = line.split("<-");
     		}
     	} else if( tipo_enunciado.equals("EnunciadoRemoverEnlace") ){
